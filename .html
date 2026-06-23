@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Praktikum Bewerbung</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <h1>Hi Jonas 👋</h1>
+  <p>Wann könnte ich mein Praktikum machen?</p>
+
+  <button onclick="scrollToSection()">Verfügbarkeit ansehen</button>
+</header>
+
+<section id="availability">
+
+  <h2>Zeiträume</h2>
+
+  <label><input type="checkbox" value="29.07–02.08"> 29.07–02.08</label>
+  <label><input type="checkbox" value="03.08–07.08"> 03.08–07.08</label>
+  <label><input type="checkbox" value="keine Option"> Keine Option</label>
+
+  <textarea placeholder="Sonstige Infos..."></textarea>
+
+  <button onclick="submitData()">Bewerbung senden</button>
+
+</section>
+
+<!-- POPUP -->
+<div id="popup" class="popup hidden">
+  <div class="popup-content">
+    <h2>📩 Status</h2>
+    <p id="popup-text"></p>
+    <button onclick="closePopup()">OK</button>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<section id="admin">
+  <h2>Admin Ansicht</h2>
+  <button onclick="requireAdmin()">Bewerbungen laden</button>
+  <div id="list"></div>
+</section>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, addDoc, collection, getDocs } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// 🔥 Firebase Config (DEINS EINSETZEN)
+const firebaseConfig = {
+  apiKey: "AIzaSyAfOt8B0I13PWYtIzrAqfku2Myiq55yLts",
+  authDomain: "praktikum-48e1d.firebaseapp.com",
+  projectId: "praktikum-48e1d"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// =======================
+// 🚀 SCROLL
+// =======================
+window.scrollToSection = function () {
+  document.getElementById("availability")
+    .scrollIntoView({ behavior: "smooth" });
+};
+
+// =======================
+// 📩 SUBMIT → FIREBASE + POPUP
+// =======================
+window.submitData = async function () {
+
+  let selected = [];
+  document.querySelectorAll("input[type=checkbox]:checked")
+    .forEach(cb => selected.push(cb.value));
+
+  let text = document.querySelector("textarea").value;
+
+  await addDoc(collection(db, "bewerbungen"), {
+    zeiten: selected,
+    text: text,
+    time: new Date().toISOString()
+  });
+
+  document.getElementById("popup-text").innerText =
+    "✅ Bewerbung gespeichert 🔥";
+
+  document.getElementById("popup").classList.remove("hidden");
+};
+
+// =======================
+// ❌ POPUP CLOSE
+// =======================
+window.closePopup = function () {
+  document.getElementById("popup").classList.add("hidden");
+};
+
+// =======================
+// 📊 ADMIN LOAD
+// =======================
+// Passwortabfrage vor dem Laden (Passwort: 8013)
+window.requireAdmin = async function () {
+  const pw = prompt('Admin-Passwort eingeben:');
+  if (pw === '8013') {
+    await window.loadBewerbungen();
+  } else {
+    alert('Falsches Passwort');
+  }
+};
+
+window.loadBewerbungen = async function () {
+
+  const querySnapshot = await getDocs(collection(db, "bewerbungen"));
+
+  let html = "";
+
+  querySnapshot.forEach((doc) => {
+    const d = doc.data();
+
+    html += `
+      <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+        <b>Zeiten:</b> ${d.zeiten.join(", ")} <br>
+        <b>Text:</b> ${d.text}
+      </div>
+    `;
+  });
+
+  document.getElementById("list").innerHTML = html;
+};
+
+</script>
+
+</body>
+</html>
