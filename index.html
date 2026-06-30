@@ -24,7 +24,6 @@
     </div>
 
     <p id="login-error" class="login-error"></p>
-    <p id="login-hint" class="login-hint"></p>
   </div>
 </div>
 
@@ -89,8 +88,6 @@ window.initLogin = function () {
     localStorage.setItem(LOGIN_PASSWORD_KEY, password);
   }
   window.loginPassword = password;
-  document.getElementById("login-hint").innerText =
-    `Passwort: ${password}`;
 };
 
 window.checkLogin = function () {
