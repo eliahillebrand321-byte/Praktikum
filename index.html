@@ -8,6 +8,26 @@
 
 <body>
 
+<div id="login-overlay" class="login-overlay">
+  <div class="login-panel">
+    <h2>Login erforderlich</h2>
+    <p>Bevor du eine Auswahl treffen kannst, melde dich bitte an.</p>
+
+    <label for="login-user">Benutzername</label>
+    <input id="login-user" type="text" placeholder="Jonas" autocomplete="username">
+
+    <label for="login-password">Passwort</label>
+    <input id="login-password" type="password" placeholder="6-stellige Zahl" autocomplete="current-password">
+
+    <div class="login-actions">
+      <button type="button" onclick="checkLogin()">Einloggen</button>
+    </div>
+
+    <p id="login-error" class="login-error"></p>
+    <p id="login-hint" class="login-hint"></p>
+  </div>
+</div>
+
 <header>
   <h1>Hi Jonas 👋</h1>
   <p>Wann könnte ich mein Praktikum machen?</p>
@@ -21,7 +41,7 @@
 
   <label><input type="checkbox" value="29.07–02.08"> 29.07–02.08</label>
   <label><input type="checkbox" value="03.08–07.08"> 03.08–07.08</label>
-  <label><input type="checkbox" value="keine Option"> Keine Option</label>
+  <label><input type="checkbox" value="keine Option"> Keine der Optionen</label>
 
   <textarea placeholder="Sonstige Infos..."></textarea>
 
@@ -59,6 +79,39 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+const LOGIN_PASSWORD_KEY = "tubbetecFixedLoginPassword";
+
+window.initLogin = function () {
+  let password = localStorage.getItem(LOGIN_PASSWORD_KEY);
+  if (!password) {
+    password = String(Math.floor(Math.random() * 900000 + 100000));
+    localStorage.setItem(LOGIN_PASSWORD_KEY, password);
+  }
+  window.loginPassword = password;
+  document.getElementById("login-hint").innerText =
+    `Passwort: ${password}`;
+};
+
+window.checkLogin = function () {
+  const username = document.getElementById("login-user").value.trim();
+  const password = document.getElementById("login-password").value.trim();
+  const errorEl = document.getElementById("login-error");
+
+  if (username !== "Jonas") {
+    errorEl.innerText = "Benutzername muss Jonas sein.";
+    return;
+  }
+  if (password !== window.loginPassword) {
+    errorEl.innerText = "Falsches Passwort.";
+    return;
+  }
+
+  document.getElementById("login-overlay").classList.add("hidden");
+  errorEl.innerText = "";
+};
+
+window.addEventListener("DOMContentLoaded", window.initLogin);
 
 // =======================
 // 🚀 SCROLL
