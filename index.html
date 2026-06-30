@@ -29,7 +29,7 @@
 
 <header>
   <h1>Hi Jonas 👋</h1>
-  <p>Wann könnte ich mein Praktikum machen?</p>
+  <p id="header-subtitle">Wann könnte ich mein Praktikum machen?</p>
 
   <button onclick="scrollToSection()">Verfügbarkeit ansehen</button>
 </header>
@@ -92,6 +92,7 @@ window.checkLogin = async function () {
     document.getElementById("login-overlay").classList.add("hidden");
     adminSection.classList.remove("hidden");
     document.querySelector("header h1").innerText = "Hi ADMIN 👋";
+    document.getElementById("header-subtitle").innerText = "Hallo Elia!";
     await window.loadBewerbungen();
     adminSection.scrollIntoView({ behavior: "smooth" });
     errorEl.innerText = "";
