@@ -14,7 +14,7 @@
     <p>Bevor du eine Auswahl treffen kannst, melde dich bitte an.</p>
 
     <label for="login-user">Benutzername</label>
-    <input id="login-user" type="text" autocomplete="username">
+    <input id="login-user" type="text" >
 
     <label for="login-password">Passwort</label>
     <input id="login-password" type="password" placeholder="6-stellige Zahl" autocomplete="current-password">
@@ -95,7 +95,7 @@ window.checkLogin = function () {
   const errorEl = document.getElementById("login-error");
 
   if (username !== "Jonas") {
-    errorEl.innerText = "Benutzername muss Jonas sein.";
+    errorEl.innerText = "Benutzername falsch.";
     return;
   }
   if (password !== window.loginPassword) {
