@@ -80,14 +80,7 @@ const db = getFirestore(app);
 
 const LOGIN_PASSWORD_KEY = "tubbetecFixedLoginPassword";
 
-window.initLogin = function () {
-  let password = localStorage.getItem(LOGIN_PASSWORD_KEY);
-  if (!password) {
-    password = String(Math.floor(Math.random() * 900000 + 100000));
-    localStorage.setItem(LOGIN_PASSWORD_KEY, password);
-  }
-  window.loginPassword = password;
-};
+const LOGIN_PASSWORD = "123456";
 
 window.checkLogin = function () {
   const username = document.getElementById("login-user").value.trim();
