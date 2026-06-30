@@ -91,7 +91,8 @@ window.checkLogin = async function () {
   if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
     document.getElementById("login-overlay").classList.add("hidden");
     adminSection.classList.remove("hidden");
-    document.querySelector("header h1").innerText = "Hallo Elia";
+    document.querySelector("header h1").innerText = "Hi ADMIN 👋";
+    document.getElementById("header-subtitle").innerText = "Hallo Elia!";
     await window.loadBewerbungen();
     adminSection.scrollIntoView({ behavior: "smooth" });
     errorEl.innerText = "";
