@@ -14,10 +14,10 @@
     <p>Bevor du eine Auswahl treffen kannst, melde dich bitte an.</p>
 
     <label for="login-user">Benutzername</label>
-    <input id="login-user" type="text" placeholder="Benutzername" autocomplete="username">
+    <input id="login-user" type="text" placeholder="Jonas" autocomplete="username">
 
     <label for="login-password">Passwort</label>
-    <input id="login-password" type="password" placeholder="Passwort" autocomplete="current-password>
+    <input id="login-password" type="password" placeholder="Passwort eingeben" autocomplete="current-password">
 
     <div class="login-actions">
       <button type="button" onclick="checkLogin()">Einloggen</button>
@@ -38,8 +38,9 @@
 
   <h2>Zeiträume</h2>
 
-  <label><input type="checkbox" value="29.07–02.08"> 06.07–09.07</label>
+  <label><input type="checkbox" value="29.07–02.08"> 29.07–02.08</label>
   <label><input type="checkbox" value="03.08–07.08"> 03.08–07.08</label>
+  <label><input type="checkbox" value="keine Option"> Keine der Optionen</label>
 
   <textarea placeholder="Sonstige Infos..."></textarea>
 
@@ -56,7 +57,7 @@
 </div>
 
 <!-- ADMIN -->
-<section id="admin">
+<section id="admin" class="hidden">
   <h2>Admin Ansicht</h2>
   <button onclick="requireAdmin()">Bewerbungen laden</button>
   <div id="list"></div>
@@ -67,8 +68,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getFirestore, addDoc, collection, getDocs } 
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+// 🔥 Firebase Config (DEINS EINSETZEN)
 const firebaseConfig = {
-  apiKey: "",
+  apiKey: "AIzaSyAfOt8B0I13PWYtIzrAqfku2Myiq55yLts",
   authDomain: "praktikum-48e1d.firebaseapp.com",
   projectId: "praktikum-48e1d"
 };
@@ -77,14 +79,27 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const LOGIN_PASSWORD = "501460";
+const ADMIN_USERNAME = "ADMIN";
+const ADMIN_PASSWORD = "Admin8013";
 
-window.checkLogin = function () {
+window.checkLogin = async function () {
   const username = document.getElementById("login-user").value.trim();
   const password = document.getElementById("login-password").value.trim();
   const errorEl = document.getElementById("login-error");
+  const adminSection = document.getElementById("admin");
+
+  if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+    document.getElementById("login-overlay").classList.add("hidden");
+    adminSection.classList.remove("hidden");
+    document.querySelector("header h1").innerText = "Hi ADMIN 👋";
+    await window.loadBewerbungen();
+    adminSection.scrollIntoView({ behavior: "smooth" });
+    errorEl.innerText = "";
+    return;
+  }
 
   if (username !== "Jonas") {
-    errorEl.innerText = "Benutzername muss Jonas sein.";
+    errorEl.innerText = "Benutzername muss Jonas oder ADMIN sein.";
     return;
   }
   if (password !== LOGIN_PASSWORD) {
