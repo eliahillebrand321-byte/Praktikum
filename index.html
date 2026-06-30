@@ -38,10 +38,20 @@
 
   <h2>Zeiträume</h2>
 
-  <label><input type="checkbox" value="29.07–02.08"> 29.07–02.08</label>
-  <label><input type="checkbox" value="03.08–07.08"> 03.08–07.08</label>
-  <label><input type="checkbox" value="05.10-09.10"> 05.10-09.10</label>
-  <label><input type="checkbox" value="keine Option"> Keine der Optionen</label>
+  <div class="checkbox-grid">
+    <label class="option-card">
+      <input type="checkbox" value="29.07–02.08">
+      <span>29.07–02.08</span>
+    </label>
+    <label class="option-card">
+      <input type="checkbox" value="03.08–07.08">
+      <span>03.08–07.08</span>
+    </label>
+    <label class="option-card">
+      <input type="checkbox" value="keine Option">
+      <span>Keine der Optionen</span>
+    </label>
+  </div>
 
   <textarea placeholder="Sonstige Infos..."></textarea>
 
@@ -101,7 +111,7 @@ window.checkLogin = async function () {
   }
 
   if (username !== "Jonas") {
-    errorEl.innerText = "Falscher Benutzername";
+    errorEl.innerText = "Benutzername muss Jonas oder ADMIN sein.";
     return;
   }
   if (password !== LOGIN_PASSWORD) {
