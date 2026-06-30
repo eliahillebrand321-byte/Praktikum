@@ -100,7 +100,7 @@ window.checkLogin = async function () {
   }
 
   if (username !== "Jonas") {
-    errorEl.innerText = "Benutzername muss Jonas oder ADMIN sein.";
+    errorEl.innerText = "Falscher Benutzername";
     return;
   }
   if (password !== LOGIN_PASSWORD) {
