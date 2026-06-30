@@ -94,6 +94,60 @@ textarea {
   width: 300px;
   text-align: center;
   color: black;
+
+  .login-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 15, 26, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.login-panel {
+  background: #121229;
+  border: 1px solid #4b4d73;
+  border-radius: 18px;
+  padding: 30px;
+  width: min(420px, 90%);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.login-panel h2 {
+  margin-top: 0;
+  color: #ffffff;
+}
+
+.login-panel label {
+  display: block;
+  margin: 18px 0 6px;
+  color: #d5d7f0;
+}
+
+.login-panel input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #313452;
+  background: #0f1125;
+  color: white;
+}
+
+.login-actions {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.login-error {
+  margin-top: 14px;
+  color: #ff6b6b;
+}
+
+.login-hint {
+  margin-top: 12px;
+  color: #9ba1f7;
+  font-size: 0.95rem;
 }
 
 .hidden {
